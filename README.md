@@ -1,12 +1,12 @@
-# FRODOCK
-FRODOCK (Fast Rotational DOCKing) generates very efficiently many potential predictions of how  two proteins could interact. Here we give a brief overview of the necessary commands to run FRODOCK, but we strongly encourage to follow the tutorials. Right now, there are four different executables: </p>
+FRODOCK (Fast Rotational DOCKing) generates very efficiently many potential predictions of how  two proteins could interact. Here we give a brief overview of the necessary commands to run FRODOCK, but we strongly encourage to follow the tutorials. Right now, there are four different executables:
 <ul>
 <li><a href="#Frodockgrid">frodockgrid</a> to pre-calculate the protein potential maps<a href="#Frodockgrid">.</a></li>
 <li><a href="#Frodock">frodock</a> to perform the protein protein docking 6D exhaustive search.</li>
 <li><a href="#Frodockcluster">frodockcluster</a>  for clustering frodock's raw predictions.</li>
 <li><a href="#Frodockview">frodockview </a>for displaying solutions and creating pdb solutions.</li>
 </ul>
-## FRODOCKGRID - precomputing potential maps
+
+#### FRODOCKGRID - precomputing potential maps
 
 To create the potential maps that will be used for scoring during the docking process, enter the following command at the prompt:
 <div class="box-content">frodockgrid &lt;pdb&gt;   -m &lt;int&gt;</div>
@@ -45,9 +45,9 @@ To create the potential maps that will be used for scoring during the docking pr
 </tr>
 </tbody>
 </table>
-<p>Basic Options</p>
-<hr size="1" />
-<p>In this section, the basic options to customize the potential maps are detailed. Just add them after the minimum command shown above.</p>
+
+Basic Options:
+
 <table style="width: 550px;" border="2" cellspacing="1" cellpadding="2"><colgroup> <col width="89" /> <col width="453" /> </colgroup>
 <tbody>
 <tr>
@@ -100,9 +100,9 @@ To create the potential maps that will be used for scoring during the docking pr
 </tr>
 </tbody>
 </table>
-<p>Advanced options</p>
-<hr size="1" />
-<p>Only for expert users!</p>
+
+Advanced options (only for expert users!)
+
 <table style="width: 600px;" border="2" cellspacing="1" cellpadding="2"><colgroup> <col width="104" /> <col width="488" /> </colgroup>
 <tbody>
 <tr>
@@ -169,14 +169,10 @@ To create the potential maps that will be used for scoring during the docking pr
 </tr>
 </tbody>
 </table>
-<p> </p>
-<p><b>FRODOCK - Docking process</b></p>
-<hr />
-<p>To perform a basic shape (van de Waals) docking enter the following command at the prompt:</p>
-<div class="box-content">frodock &lt;recept_pdb&gt; &lt;ligand_pdb&gt; --E 0</div>
-<p>Alternatively, by removing the --E flag the electrostaics can be considered. You could include the vdW and electrostatics precalculated maps using -w and -e &lt;string&gt; options, respectively. These simple docking alternatives can be useful as a first aproximation.The recommended option is to include vdw, electrostatic and desolvation terms, i.e.:</p>
-<div class="box-content">frodock rec_ASA.pdb lig_ASA.pdb −d lig_sol.cpp4,rec_sol.cpp4</div>
-<p>When using desolvation it is madatory ligand and receptor pdb input files with the atom ASA values in the Occupancy column. These files are standard output of frodockgrid, please do not forget to use them instead of the original ones. Exploiting pre-calculations to gain efficiency, an equivalent command line will be:</p>
+
+##### FRODOCK - Docking process 
+
+Basic command:
 <div class="box-content">frodock rec_ASA.pdb lig_ASA.pdb  −w rec_vdw.cpp4 −e rec_ele.cpp4 −d lig_solv.cpp4,rec_solv.cpp4</div>
 <p><br />where:</p>
 <table style="width: 657px; height: 296px;" border="2" cellspacing="1" cellpadding="2"><colgroup> <col width="36" /> <col width="220" /> </colgroup>
@@ -239,9 +235,7 @@ To create the potential maps that will be used for scoring during the docking pr
 </tr>
 </tbody>
 </table>
-<p>Basic Options</p>
-<hr size="1" />
-<p>In this section, the basic options to customize the docking process are detailed.</p>
+Basic Options:
 <table style="width: 550px;" border="2" cellspacing="1" cellpadding="2"><colgroup> <col width="139" /> <col width="403" /> </colgroup>
 <tbody>
 <tr>
@@ -310,9 +304,7 @@ To create the potential maps that will be used for scoring during the docking pr
 </tr>
 </tbody>
 </table>
-<p>Advanced options</p>
-<hr size="1" />
-<p>Only for expert users!</p>
+Advanced options
 <table style="width: 589px; height: 531px;" border="2" cellspacing="1" cellpadding="2"><colgroup> <col width="114" /> <col width="428" /> </colgroup>
 <tbody>
 <tr>
@@ -393,10 +385,11 @@ To create the potential maps that will be used for scoring during the docking pr
 </tr>
 </tbody>
 </table>
-<p> </p>
-<p><b>FRODOCKCLUSTER - Sort and cluster frodock output file</b></p>
-<hr />
-<p>To sort and cluster the docking solutions, enter the following command at the prompt:</p>
+
+
+##### FRODOCKCLUSTER - Sort and cluster frodock output file
+
+To sort and cluster the docking solutions, enter the following command at the prompt:
 <div class="box-content">frodockcluster &lt;data&gt; &lt;pdb</div>
 <p>where:</p>
 <table style="width: 550px;" border="2" cellspacing="1" cellpadding="2"><colgroup> <col width="82" /> <col width="460" /> </colgroup>
@@ -494,9 +487,9 @@ To create the potential maps that will be used for scoring during the docking pr
 </tbody>
 </table>
 <p> </p>
-<p><b>FRODOCKVIEW - Show and create pdb solutions</b></p>
-<hr />
-<p>To show docking solutions and create resulting PDBs, enter the following command at the prompt:</p>
+#### FRODOCKVIEW - Show and create pdb solutions
+
+To show docking solutions and create the corresponding PDBs, enter the following command at the prompt:
 <div class="box-content">frodockview &lt;input&gt;</div>
 <p>where:</p>
 <table style="width: 550px;" border="0" cellspacing="0" cellpadding="2"><colgroup> <col width="89" /> <col width="453" /> </colgroup>
