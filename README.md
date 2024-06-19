@@ -1,16 +1,14 @@
 # FRODOCK
-FRODOCK (Fast Rotational DOCKing) generates very efficiently many potential predictions of how  two proteins could interact.
-<p>Here we give a brief overview of the necessary commands to run FRODOCK, but we strongly encourage to follow the tutorials. Right now, there are four different executables: </p>
+FRODOCK (Fast Rotational DOCKing) generates very efficiently many potential predictions of how  two proteins could interact. Here we give a brief overview of the necessary commands to run FRODOCK, but we strongly encourage to follow the tutorials. Right now, there are four different executables: </p>
 <ul>
 <li><a href="#Frodockgrid">frodockgrid</a> to pre-calculate the protein potential maps<a href="#Frodockgrid">.</a></li>
 <li><a href="#Frodock">frodock</a> to perform the protein protein docking 6D exhaustive search.</li>
 <li><a href="#Frodockcluster">frodockcluster</a>  for clustering frodock's raw predictions.</li>
 <li><a href="#Frodockview">frodockview </a>for displaying solutions and creating pdb solutions.</li>
 </ul>
-<p>This user guide describes the usage of these FRODOCK components.</p>
-<p><b>FRODOCKGRID - precomputing potential maps</b></p>
-<hr />
-<p>To create the potential maps that will be used for scoring during the docking process, enter the following command at the prompt:</p>
+## FRODOCKGRID - precomputing potential maps
+
+To create the potential maps that will be used for scoring during the docking process, enter the following command at the prompt:
 <div class="box-content">frodockgrid &lt;pdb&gt;   -m &lt;int&gt;</div>
 <p>where:</p>
 <table style="width: 550px;" border="2" cellspacing="1" cellpadding="2"><colgroup> <col width="89" /> <col width="453" /> </colgroup>
@@ -574,3 +572,5 @@ FRODOCK (Fast Rotational DOCKing) generates very efficiently many potential pred
 </tr>
 </tbody>
 </table>
+
+
