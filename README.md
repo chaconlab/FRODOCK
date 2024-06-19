@@ -1,6 +1,9 @@
 # FRODOCK
 
-FRODOCK (Fast Rotational DOCKing) generates very efficiently many potential predictions of how  two proteins could interact from their 3D coordinates. 
+FRODOCK (Fast Rotational DOCKing) generates very efficiently many potential predictions of how two proteins could interact from their 3D coordinates. This approximation effectively addressed the complexity and sampling requirements of the initial 6D docking exhaustive search by combining the projection of the interaction terms into 3D grid-based potentials with the efficiency of spherical harmonics approximations. This initial stage exhaustive docking approach obtained excellent accuracy results with standard benchmarks in just a few minutes. Please also check our protein-protein server <a href="https://frodock.chaconlab.org/"> FRODOCK </a></p>
+
+- J.I. Garzón, J.R. Lopéz-Blanco, C. Pons, J. Kovacs, R. Abagyan, J. Fernández-Recio, P. Chacón (2009) FRODOCK: a new approach for fast rotational protein-protein docking Bioinformatics, 25, 2544-2551 <a href="http://www.ncbi.nlm.nih.gov/pubmed/19620099?itool=EntrezSystem2.PEntrez.Pubmed.Pubmed_ResultsPanel.Pubmed_RVDocSum&amp;ordinalpos=1"><img src="images/publications/pubmed.jpg" alt="" align="top" border="0" /></a><a href="httpd://chaconlab.org/PDF/bioinf2009.pdf"> <img src="images/publications/acrobaticon4.gif" alt="" border="0" /></a>
+- E. Ramírez-Aportela, J.R. López-Blanco, P. Chacon (2016). FRODOCK 2.0: Fast Protein-Protein docking server. Bioinformatics 2016 32 (15), 2386-8 <a href="https://doi.org/10.1093/bioinformatics/btw141"><img src="http://chaconlab.org/images/publications/pubmed.jpg" alt="" align="top" border="0" /></a><a href="http://chaconlab.org/PDF/bioinf2016.pdf"> <img src="http://chaconlab.org/images/publications/acrobaticon4.gif" alt="" border="0" /></a>
 
 ## USAGE
 The docking process will be carried out in four consecutive steps:
@@ -114,6 +117,12 @@ Translational search init...
 dock.dat is a binary file that stores all the docking solutions (ligand orientations and positions). 
 Note for advanced users: The van der Waals potential term cannot be disabled; if it is not given as input it will be automatically computed. To avoid the electrostatic potential −−E option must be set to 0.0.
 
+[!NOTE] MPI version works in the same way as the sequential version but it is possible to split the translational search in as many parallel processes as you have, speeding the docking considerably. The command for 6 processes is:
+```
+> mpirun -np 6 ../bin_mpi/frodock_mpi 3hfl_fv_ASA.pdb 1lza_ly2_ASA.pdb -w 3hfl_fv_W.ccp4 -e 3hfl_fv_E.ccp4 --th 10 -d 3hfl_fv_DS.ccp4,1lza_ly2_DS.ccp4 -o dock2_mpi.dat
+```
+[!CAUTION] The frodock_mpi requires dynamic links to a set MPI and system libraries. If the provided frodock_mpi does not work correctly with your MPI installation, check what libraries are needed (linux:>ldd ../bin/frodock_mpi) and what are included LD_LIBRARY_PATH (sometimes case a symbolic link can solve this problem). In any case, we recommend compilation of the code to avoid problems.
+
 ### STEP 4. Clustering and visualization of predictions 
 
 Once the docking process has been performed it is possible to sort and cluster the solutions by:
@@ -154,9 +163,46 @@ In this case, the first prediction (3hfl_ly2_3.pdb) is shown to be very similar 
 <table border="0" cellspacing="0" cellpadding="0" align="center">
 <tbody>
 <tr>
-<td align="center"><img title="Final docked structures" src="assest/rec_lig_pred_web.jpg" width="291" height="197" /></td>
+<td align="center"><img title="Final docked structures" src="assets/rec_lig_pred_web.jpg" width="291" height="197" /></td>
 </tr>
 </tbody>
 </table>
+You could employ an unbound ligand structure (PDB entry 1lza), despite presenting some challenging conformational changes frodock still gets the correct solution within top solutions.  
 
+### HOW TO ADD CONSTRAINTS TO THE DOCKING?
 
+The docking search can be constrained in two different ways.
+
+#### Known amino acids involved in the interaction:
+
+After the docking is done, frodockonstraits tool can discriminate/filter FRODOCK solutions that fulfill known distance conditions between ligand and receptor amino acids in the interface.  The distance constraints are stored in an input text file like this:         
+```
+RECEPT______LIGAND_____DIST 
+-----------------------------------------
+101          67        5.0
+```
+Using this file (constrainst.txt)  the command will be:
+```
+../bin/frodockonstraints clust_dock2.dat 3hfl_fv.pdb 1lza_ly2.pdb constraints.txt -o clust_dock2_C.dat
+```
+This will create a file (clust_dock2_C.dat) with solutions that show at least a pair of atoms (no hydrogens) from receptor amino acid 101 and ligand amino acid 67 with a distance shorter than 5.0 Å.
+
+The constraint file can contain many conditions, one per line. To keep a solution, all conditions must be fulfilled.  For example, this file:
+```
+RECEPT______LIGAND_____DIST
+-----------------------------------------
+101          67        5.0
+102         -1        10.0
+-1           68       10.0
+```
+contains three conditions. The first implies that at least one atom pair from receptor amino acid 101 and ligand amino acid 67 must be closer than 5.0 Å. The second condition states that at least one atom from receptor amino acid 101 must be less than 10 Å of any atom from the ligand. The third states that at least one atom from ligand amino acid 68 must be less than 10 Å of any atom from the receptor. The three conditions must be fulfilled to keep a solution.
+
+#### Known receptor binding site:
+
+FRODOCK can also limit the translational exploration of the ligand location to a small region around a given position. This will be useful when the approximate position of the ligand can be predicted. The option “−−around X,Y,Z” determines the 3D position central point of the desired translational exploration, and option -th specifies the extension in amstrons.  Here is an example:
+```
+../bin/frodock 3hfl_fv_ASA.pdb 1lza_ly2_ASA.pdb -w 3hfl_fv_W.ccp4 -e 3hfl_fv_E.ccp4 --th 10 -d 3hfl_fv_DS.ccp4,1lza_ly2_DS.ccp4 -o dock_C.dat --around 20.0,6.0,54.0
+../bin/frodockcluster dock_C.dat 1lza_ly2.pdb --nc 100 -d 5.0 -o clust_dock_C.dat
+../bin/frodockview clust_dock_C.dat -r 11 -p 1lza_ly2.pdb
+```
+This restriction accelerates the docking search avoiding false predictions where the ligand is far from the receptor binding site.
