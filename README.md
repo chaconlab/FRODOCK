@@ -1,4 +1,33 @@
-FRODOCK (Fast Rotational DOCKing) generates very efficiently many potential predictions of how  two proteins could interact. Here we give a brief overview of the necessary commands to run FRODOCK, but we strongly encourage to follow the tutorials. Right now, there are four different executables:
+# FRODOCK
+
+FRODOCK (Fast Rotational DOCKing) generates very efficiently many potential predictions of how  two proteins could interact from their 3D coordinates. 
+
+## USAGE
+The docking process will be carried out in four consecutive steps:
+
+1. Check PDB input files
+2. Potential maps generation
+3. Perform the exhaustive docking search
+4. Clustering and visualization of predictions.
+
+### STEP 1. Check PDB input files
+
+The input coordinates of both ligand and receptor proteins should conform to PDB format. Be aware of missing atoms, alternative conformations, bad place atoms and a long etc. that can eventually jeopardize your results. Please, use your favorite PDB checker to anticipate and fix any PDB error!
+
+### STEP 1. Potential maps generation
+
+All necessary potential maps must be pre-computed using FRODOCKGRID. Although vdw and electrostatics maps could be computed on the fly during the docking search, it is recommendable to create the maps beforehand in order to visualize them and check that they are consistent with the original structure. Here are the commands to generate the vdw, electrostatic, desolvation maps (receptor and ligand) in the illustrative example HyHel-5/lysozyme docking case.
+```
+> ../bin/frodockgrid 3hfl_fv.pdb -o 3hfl_fv_W.ccp4
+> ../bin/frodockgrid 3hfl_fv.pdb -o 3hfl_fv_E.ccp4 -m 1
+> ../bin/frodockgrid 3hfl_fv.pdb -o 3hfl_fv_DS.ccp4 -m 3
+> ../bin/frodockgrid 3hfl_ly2.pdb -o 3hfl_ly2_DS.ccp4 -m 3
+```
+The receptor (3hfl_fv.pdb) and the ligand (3hfl_ly_ref.pdb) coordinates were extracted from 3hfl pdb entry of the Protein Data Bank. The ligand molecule was rotated randomly (3hfl_ly2.pdb, red on the left)to avoid pre-aligment situations.
+
+
+
+Here we give a brief overview of the necessary commands to run FRODOCK, but we strongly encourage to follow the tutorials. Right now, there are four different executables:
 <ul>
 <li><a href="#Frodockgrid">frodockgrid</a> to pre-calculate the protein potential maps<a href="#Frodockgrid">.</a></li>
 <li><a href="#Frodock">frodock</a> to perform the protein protein docking 6D exhaustive search.</li>
