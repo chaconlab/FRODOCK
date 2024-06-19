@@ -46,9 +46,9 @@ You can check the appearance of the generated receptor potential maps with a vie
 </tr>
 <tr>
 <td><img title="Ligand" src="assets/lig_low_web.jpg" border="0" /></td>
+<td></td>
+<td></td>
 <td><img title="Ligand Desolvation map" src="assets/lig_desol_low_web.jpg" border="0" /></td>
-<td></td>
-<td></td>
 </tr>  
 </tbody>
 </table>
