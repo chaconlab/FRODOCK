@@ -14,7 +14,7 @@ The docking process will be carried out in four consecutive steps:
 
 The input coordinates of both ligand and receptor proteins should conform to PDB format. Be aware of missing atoms, alternative conformations, bad place atoms and a long etc. that can eventually jeopardize your results. Please, use your favorite PDB checker to anticipate and fix any PDB error!
 
-### STEP 1. Potential maps generation
+### STEP 2. Potential maps generation
 
 All necessary potential maps must be pre-computed using FRODOCKGRID. Although vdw and electrostatics maps could be computed on the fly during the docking search, it is recommendable to create the maps beforehand in order to visualize them and check that they are consistent with the original structure. Here are the commands to generate the vdw, electrostatic, desolvation maps (receptor and ligand) in the illustrative example HyHel-5/lysozyme docking case.
 ```
@@ -46,7 +46,8 @@ You can check the appearance of the generated receptor potential maps with a vie
 </tr>
 <tr>
 <td><img title="Ligand" src="assets/lig_low_web.jpg" border="0" /></td>
-<td><img title="Ligand Desolvation map" src="assets/lig_desol_low_web.jpg" border="0" /></td><td></td>
+<td><img title="Ligand Desolvation map" src="assets/lig_desol_low_web.jpg" border="0" /></td>
+<td></td>
 <td></td>
 </tr>  
 </tbody>
